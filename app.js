@@ -15,4 +15,9 @@ app.use(morgan('tiny'))
 //for cookies
 app.use(cookieParser())
 
+// routes
+const user = require('./routes/routes')
+
+app.use("/api/v1",user)
+
 module.exports = app

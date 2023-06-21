@@ -27,6 +27,12 @@ exports.signup = async(req,res) => {
 
         let token = user.getJwtToken()
 
+        if(!token){
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+        }
+
         const options = {
             expires: new Date(
                 Date.now() + process.env.COOKIE_TIME * 24*60*60*1000
@@ -39,6 +45,8 @@ exports.signup = async(req,res) => {
         })
 
     } catch (error) {
-        throw error
+        res.status(400).json({
+            error:error.message
+        })
     }
 }
