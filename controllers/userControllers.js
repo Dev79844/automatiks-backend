@@ -61,9 +61,7 @@ exports.signup = async(req,res) => {
         })
 
     } catch (error) {
-        res.status(400).json({
-            error:error.message
-        })
+        console.log(error);
     }
 }
 
@@ -90,9 +88,7 @@ exports.verify = async(req,res) => {
         })
 
     } catch (error) {
-        res.status(400).json({
-            error:error.message
-        })
+        console.log(error);
     }
 }
 
@@ -142,8 +138,6 @@ exports.login = async(req,res) => {
             message:"Login successful"
         })
     } catch (error) {
-        res.status(400).json({
-            error:error.message
-        })
+        console.log(error);
     }
 }
