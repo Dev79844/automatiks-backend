@@ -29,7 +29,7 @@ exports.signup = async(req,res) => {
 
         
         // generates token
-        let token = user.getJwtToken()
+        let token = await user.getJwtToken()
         
         if(!token){
             res.status(500).json({
@@ -108,7 +108,7 @@ exports.login = async(req,res) => {
             })
         }
 
-        let checkPass = user.isValidatedPassword(password)
+        const checkPass = await user.isValidatedPassword(password)
 
         if(!checkPass){
             res.status(400).json({
@@ -117,7 +117,7 @@ exports.login = async(req,res) => {
         }
 
         // generates token
-        let token = user.getJwtToken()
+        let token = await user.getJwtToken()
         
         if(!token){
             res.status(500).json({
