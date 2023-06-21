@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const emailHelper = require('../utils/emailHelper')
 
 exports.signup = async(req,res) => {
     try {
@@ -26,14 +27,25 @@ exports.signup = async(req,res) => {
             password
         })
 
+        
         // generates token
         let token = user.getJwtToken()
-
+        
         if(!token){
             res.status(500).json({
                 error: "Internal Server Error"
             })
         }
+        const uri = `${req.protocol}://${req.get("host")}/api/v1/verify/${token}`
+
+        const message = `Copy paste this uri and click enter \n\n ${uri}`
+
+        // sending verification email
+        await emailHelper({
+            email: user.email,
+            subject:"Verify User Account",
+            message
+        })
 
         // options for cookie
         const options = {
