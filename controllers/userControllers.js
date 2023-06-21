@@ -96,3 +96,54 @@ exports.verify = async(req,res) => {
     }
 }
 
+exports.login = async(req,res) => {
+    try {
+        const {email,password} = req.body 
+        const user = await User.findOne({email})
+        if(!user){
+            res.status(404).json({
+                error:"User not found"
+            })
+        }
+
+        if(!user.isVerified){
+            res.status(401).json({
+                error: "Please verify your email"
+            })
+        }
+
+        let checkPass = user.isValidatedPassword(password)
+
+        if(!checkPass){
+            res.status(400).json({
+                error:"Email or password incorrect"
+            })
+        }
+
+        // generates token
+        let token = user.getJwtToken()
+        
+        if(!token){
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+        }
+
+        // options for cookie
+        const options = {
+            expires: new Date(
+                Date.now() + process.env.COOKIE_TIME * 24*60*60*1000
+            ),
+            httpOnly: true
+        }
+
+
+        res.status(200).cookie('token',token,options).json({
+            message:"Login successful"
+        })
+    } catch (error) {
+        res.status(400).json({
+            error:error.message
+        })
+    }
+}

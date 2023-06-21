@@ -29,8 +29,8 @@ userSchema.pre('save', async function(next){
     this.password = await bcrypt.hash(this.password,10)
 })
 
-userSchema.methods.isValidatePassword = async function(userPassword){
-    return await bcrypt.compare(userPassword,this.password)
+userSchema.methods.isValidatedPassword = async function(userPassword){
+    return await bcrypt.compare(userPassword, this.password)
 }
 
 userSchema.methods.getJwtToken = function(){
