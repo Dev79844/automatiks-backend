@@ -2,6 +2,10 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const emailHelper = require('../utils/emailHelper')
 
+// @desc signup a user
+// @route POST /api/v1/signup
+// @access Public
+// @required fields {name,email,password}
 exports.signup = async(req,res) => {
     try {
         const {name,email,password} = req.body 
@@ -65,10 +69,15 @@ exports.signup = async(req,res) => {
     }
 }
 
+// @desc verifies a user account
+// @route GET /api/v1/verify/:token
+// @access Public
+// @params token
 exports.verify = async(req,res) => {
     try {
         const token = req.params.token
 
+        // verifying the generated token
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
         const user = await User.findById(decoded.id)
@@ -92,6 +101,10 @@ exports.verify = async(req,res) => {
     }
 }
 
+// @desc logins a user
+// @route POST /api/v1/login
+// @access Public
+// @required fields {email,password}
 exports.login = async(req,res) => {
     try {
         const {email,password} = req.body 

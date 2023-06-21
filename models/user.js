@@ -24,15 +24,18 @@ const userSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
+// hashes the password before saving it to database
 userSchema.pre('save', async function(next){
     if(!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password,10)
 })
 
+// method to validate password
 userSchema.methods.isValidatedPassword = async function(userPassword){
     return await bcrypt.compare(userPassword, this.password)
 }
 
+// method to generate jwt token for a user
 userSchema.methods.getJwtToken = function(){
     return jwt.sign({id: this._id},process.env.JWT_SECRET,{
         expiresIn: process.env.JWT_EXPIRY

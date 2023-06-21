@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer')
 
+// @desc sends a verification email
+// @access Public
 const mailHelper = async(details) => {
     const transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
