@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2016",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "rootDir": "src",
+    "outDir": "dist/js",
+  },
+  "include": ["src/**/*", "app.js"],
+  "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
+}
